@@ -48,7 +48,7 @@ def get_palette():
 
 def setupImage(image_path):
     image = Image.open(image_path).convert('RGBA')
-    image = image.resize((SIZE // PIXEL_INTERVAL, SIZE // PIXEL_INTERVAL), Image.NEAREST)
+    image = image.resize((SIZE[0] // PIXEL_INTERVAL, SIZE[1] // PIXEL_INTERVAL), Image.NEAREST)
 
     arr = np.array(image)  # shape (H, W, 4)
     alpha = arr[..., 3]  # shape (H, W)
@@ -123,6 +123,8 @@ def drawImage(image_path):
 
     del pixelLinesToDraw[(0, 0, 0)]
 
+    input("Appuyez sur Entrée une fois l'application ouverte et prête...")
+
     n = 0
     for key, value in pixelLinesToDraw.items():
         print(f'Color : {key} {n}/{nbLinesToDraw} {n/nbLinesToDraw*100:.2f}%')
@@ -131,9 +133,10 @@ def drawImage(image_path):
             start = j[0]
             end = j[1]
             swipe(start[0], start[1], end[0], end[1], duration=1)
-        n += 1
+        n += len(value)
     print("100%")
 
 
 if __name__ == '__main__':
-    drawImage('../flash.png')
+    image_path = input("Chemin vers l'image: ")
+    drawImage(image_path)
